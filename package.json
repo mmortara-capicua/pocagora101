@@ -1,0 +1,23 @@
+{
+  "name": "pocagora101",
+  "version": "1.0.0",
+  "description": "super simple example of agora",
+  "main": "codeSnipet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmortara-capicua/pocagora101.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmortara-capicua/pocagora101/issues"
+  },
+  "homepage": "https://github.com/mmortara-capicua/pocagora101#readme",
+  "dependencies": {
+    "agora-rtc-sdk": "^3.1.1"
+  }
+}
