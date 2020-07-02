@@ -10,6 +10,7 @@ let canvasContainer = document.getElementById('canvas-container');
 function addVideoStream(streamId) {
 	let streamDiv = document.createElement('div');
 	streamDiv.id = streamId;
+	streamDiv.style.transform='rotateY(180deg)';
 	remoteContainer.appendChild(streamDiv);
 }
 
@@ -31,6 +32,11 @@ function addCanvas(streamId) {
 	canvasContainer.appendChild(canvas);
 	let ctx = canvas.getContext('2d');
 
+	video.addEventListener('loadedmetadata', function(){
+		canvas.width = video.videoWidth;
+		canvas.height = video.videoHeight;
+	})
+
 	video.addEventListener(
 		'play',
 		function() {
@@ -41,7 +47,7 @@ function addCanvas(streamId) {
 						canvas.width = video.videoWidth;
 						canvas.height = video.videoHeight;
 					}
-					ctx.drawImage($this, 0, 0);
+					ctx.drawImage($this, 70, 70);
 					setTimeout(loop, 1000 / 30);
 				}
 			})();
@@ -70,15 +76,21 @@ client.join(
 		});
 
 		localStream.init(function() {
+			//console.log('Error con el ME', document.getElementById('me'))
 			localStream.play('me');
 			client.publish(localStream, handleFail);
 
 			client.on('stream-added', function(evt) {
-				client.subcribe(evt.stream, handleFail);
+				client.subscribe(evt.stream, handleFail);
 			});
 
 			client.on('stream-subscribed', function(evt) {
-				client.subscribe(evt.stream, handleFail);
+				let stream = evt.stream;
+				console.log(`Se a UNIDO un nuevo amiguito! ${stream}`);
+				addVideoStream(stream.getId());
+				stream.play(stream.getId());
+				addCanvas(stream.getId());
+				// client.subscribe(evt.stream, handleFail);
 			});
 
 			client.on('stream-removed', removeVideoStream);
